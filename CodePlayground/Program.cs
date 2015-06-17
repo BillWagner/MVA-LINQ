@@ -10,19 +10,17 @@ namespace CodePlayground
     {
         static void Main(string[] args)
         {
-            // Old school way to use a sequence:
+            // This doesn't change (yet):
             foreach (var item in GeneratedStrings())
                 Console.WriteLine(item);
         }
 
-        // Old school way to generate a sequence:
+        // Core syntax for an enumerable:
         private static IEnumerable<string> GeneratedStrings()
         {
-            var rval = new List<string>();
-            int i = 0;
-            while (i++ < 100)
-                rval.Add(i.ToString());
-            return rval;
+            yield return "one";
+            yield return "two";
+            yield return "three";
         }
     }
 
