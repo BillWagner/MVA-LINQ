@@ -18,9 +18,9 @@ namespace CodePlayground
         // Core syntax for an enumerable:
         private static IEnumerable<string> GeneratedStrings()
         {
-            yield return "one";
-            yield return "two";
-            yield return "three";
+            var i = 0;
+            while (i++ < 100)
+                yield return i.ToString();
         }
     }
 
