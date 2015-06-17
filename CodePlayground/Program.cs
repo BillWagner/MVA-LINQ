@@ -10,17 +10,22 @@ namespace CodePlayground
     {
         static void Main(string[] args)
         {
-            // This doesn't change (yet):
-            foreach (var item in GeneratedStrings())
+            // Generate items using a factory:
+            var items = GenerateSequence(i => i.ToString());    
+            foreach (var item in items)
+                Console.WriteLine(item);
+
+            var moreItems = GenerateSequence(i => i);
+            foreach (var item in moreItems)
                 Console.WriteLine(item);
         }
 
         // Core syntax for an enumerable:
-        private static IEnumerable<string> GeneratedStrings()
+        private static IEnumerable<T> GenerateSequence<T>(Func<int, T> factory)
         {
             var i = 0;
             while (i++ < 100)
-                yield return i.ToString();
+                yield return factory(i);
         }
     }
 
