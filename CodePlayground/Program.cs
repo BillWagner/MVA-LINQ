@@ -16,6 +16,14 @@ namespace CodePlayground
                 if (predicate(item))
                     yield return item;
         }
+
+        public static IEnumerable<TResult> Select<TSource, TResult>(
+            this IEnumerable<TSource> inputSequence, 
+            Func<TSource, TResult> transform)
+        {
+            foreach (TSource item in inputSequence)
+                yield return transform(item);
+        }
     }
     class Program
     {
@@ -24,6 +32,10 @@ namespace CodePlayground
             // Generate items using a factory:
             var items = GenerateSequence(i => i.ToString());    
             foreach (var item in items.Where(item => item.Length < 2))
+                Console.WriteLine(item);
+
+            foreach (var item in items.Select(item => 
+                new string(item.PadRight(9).Reverse().ToArray())))
                 Console.WriteLine(item);
 
             return;
