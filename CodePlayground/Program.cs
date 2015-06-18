@@ -24,6 +24,15 @@ namespace CodePlayground
             foreach (TSource item in inputSequence)
                 yield return transform(item);
         }
+
+        public static IEnumerable<TResult> Select<TSource, TResult>(
+            this IEnumerable<TSource> inputSequence,
+            Func<TSource, int, TResult> transform)
+        {
+            int index = 0;
+            foreach (TSource item in inputSequence)
+                yield return transform(item, index++);
+        }
     }
     class Program
     {
@@ -34,8 +43,8 @@ namespace CodePlayground
             foreach (var item in items.Where(item => item.Length < 2))
                 Console.WriteLine(item);
 
-            foreach (var item in items.Select(item => 
-                new string(item.PadRight(9).Reverse().ToArray())))
+            foreach (var item in items.Select((item, index) => 
+                new { index, item }))
                 Console.WriteLine(item);
 
             return;
