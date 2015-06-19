@@ -109,6 +109,10 @@ namespace CodePlayground
     {
         static void Main(string[] args)
         {
+            var sequence = SequenceFromConsole().OrderBy(s => s.Length);
+            foreach (var item in sequence)
+                Console.WriteLine($"\t{item}");
+            return;
             var sum = SequenceFromConsole().Select(s => int.Parse(s))
                 .Aggregate("Comma Separated", (existingString, item) => existingString + ", " + item);
             Console.WriteLine(sum);
