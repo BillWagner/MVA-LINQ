@@ -148,26 +148,25 @@ namespace CodePlayground
             return sum;
         }
 
-        public static MyOrderedEnumerable<T, TKey> MyOrderBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> comparer)
+        public static IOrderingImpl<T> MyOrderBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> comparer)
             where TKey: IComparable<TKey>
         {
             return new MyOrderedEnumerable<T, TKey>(source, comparer);
         }
 
-        //public static MyOrderedEnumerable<T, TKey2> MyThenBy<T, TKey1, TKey2>(this MyOrderedEnumerable<T, TKey1> source, Func<T, TKey2> comparer)
-        //    where TKey1 : IComparable<TKey1>
-        //    where TKey2 : IComparable<TKey2>
-        //{
-        //    return new MyOrderedEnumerable<T, TKey>(source, comparer);
-        //}
+        public static IOrderingImpl<T> MyThenBy<T, TKey>(this IOrderingImpl<T> source, Func<T, TKey> comparer)
+            where TKey : IComparable<TKey>
+        {
+            return new MyOrderedEnumerable<T, TKey>(source, comparer);
+        }
     }
     class Program
     {
         static void Main(string[] args)
         {
             var sequence = SequenceFromConsole()
-                .MyOrderBy(s => s.Length);
-                // .MyThenBy(s => s);
+                .MyOrderBy(s => s.Length)
+                .MyThenBy(s => s);
             foreach (var item in sequence)
                 Console.WriteLine($"\t{item}");
             return;
