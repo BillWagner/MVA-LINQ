@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace CodePlayground
 {
-    public class MyOrderedEnumerable<T, TKey> : IEnumerable<T> where TKey : IComparable<TKey>
+    public interface IOrderingImpl<T> : IEnumerable<T>
+    {
+        int CompareTo(T left, T right);
+        IEnumerable<T> OriginalSource { get; }
+    }
+    public class MyOrderedEnumerable<T, TKey> : IOrderingImpl<T>, IEnumerable<T> where TKey : IComparable<TKey>
     {
         private Comparison<T> comparison;
         private IEnumerable<T> source;
@@ -17,6 +22,20 @@ namespace CodePlayground
             this.source = source;
             comparison = (a, b) => comparer(a).CompareTo(comparer(b));
         }
+
+        public IEnumerable<T> OriginalSource
+        {
+            get
+            {
+                return source;
+            }
+        }
+
+        public int CompareTo(T left, T right)
+        {
+            return comparison(left, right);
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             // very poor implementation, but works:
@@ -135,20 +154,20 @@ namespace CodePlayground
             return new MyOrderedEnumerable<T, TKey>(source, comparer);
         }
 
-        public static MyOrderedEnumerable<T, TKey2> MyThenBy<T, TKey1, TKey2>(this MyOrderedEnumerable<T, TKey1> source, Func<T, TKey2> comparer)
-            where TKey1 : IComparable<TKey1>
-            where TKey2 : IComparable<TKey2>
-        {
-            return new MyOrderedEnumerable<T, TKey>(source, comparer);
-        }
+        //public static MyOrderedEnumerable<T, TKey2> MyThenBy<T, TKey1, TKey2>(this MyOrderedEnumerable<T, TKey1> source, Func<T, TKey2> comparer)
+        //    where TKey1 : IComparable<TKey1>
+        //    where TKey2 : IComparable<TKey2>
+        //{
+        //    return new MyOrderedEnumerable<T, TKey>(source, comparer);
+        //}
     }
     class Program
     {
         static void Main(string[] args)
         {
             var sequence = SequenceFromConsole()
-                .MyOrderBy(s => s.Length)
-                .MyThenBy(s => s);
+                .MyOrderBy(s => s.Length);
+                // .MyThenBy(s => s);
             foreach (var item in sequence)
                 Console.WriteLine($"\t{item}");
             return;
