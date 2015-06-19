@@ -38,6 +38,13 @@ namespace CodePlayground
         {
             return sequence.GetEnumerator().MoveNext();
         }
+        public static int Count<T>(this IEnumerable<T> sequence)
+        {
+            int count = 0;
+            foreach (var item in sequence)
+                count++;
+            return count;
+        }
 
         public static bool Any<T>(this IEnumerable<T> sequence, Func<T, bool> predicate)
         {
@@ -48,7 +55,7 @@ namespace CodePlayground
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(SequenceFromConsole().Any(s => s.Contains("hello")));
+            Console.WriteLine(SequenceFromConsole().Count());
             return;
 
 
