@@ -134,14 +134,21 @@ namespace CodePlayground
         {
             return new MyOrderedEnumerable<T, TKey>(source, comparer);
         }
+
+        public static MyOrderedEnumerable<T, TKey2> MyThenBy<T, TKey1, TKey2>(this MyOrderedEnumerable<T, TKey1> source, Func<T, TKey2> comparer)
+            where TKey1 : IComparable<TKey1>
+            where TKey2 : IComparable<TKey2>
+        {
+            return new MyOrderedEnumerable<T, TKey>(source, comparer);
+        }
     }
     class Program
     {
         static void Main(string[] args)
         {
             var sequence = SequenceFromConsole()
-                .MyOrderBy(s => s.Length);
-                // .ThenBy(s => s);
+                .MyOrderBy(s => s.Length)
+                .MyThenBy(s => s);
             foreach (var item in sequence)
                 Console.WriteLine($"\t{item}");
             return;
