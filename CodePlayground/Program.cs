@@ -79,12 +79,20 @@ namespace CodePlayground
                 sum = func(sum, item);
             return sum;
         }
+
+        public static int Aggregate(this IEnumerable<int> sequence, int seed, Func<int, int, int> func)
+        {
+            var sum = seed;
+            foreach (var item in sequence)
+                sum = func(sum, item);
+            return sum;
+        }
     }
     class Program
     {
         static void Main(string[] args)
         {
-            var sum = SequenceFromConsole().Select(s => int.Parse(s)).Aggregate((partialSum, item) => partialSum + item);
+            var sum = SequenceFromConsole().Select(s => int.Parse(s)).Aggregate(10, (partialSum, item) => partialSum + item);
             Console.WriteLine(sum);
 
             return;
