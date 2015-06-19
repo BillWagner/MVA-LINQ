@@ -109,7 +109,9 @@ namespace CodePlayground
     {
         static void Main(string[] args)
         {
-            var sequence = SequenceFromConsole().OrderBy(s => s.Length);
+            var sequence = SequenceFromConsole()
+                .OrderBy(s => s.Length)
+                .ThenBy(s => s);
             foreach (var item in sequence)
                 Console.WriteLine($"\t{item}");
             return;
