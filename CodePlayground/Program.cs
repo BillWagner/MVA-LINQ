@@ -56,18 +56,21 @@ namespace CodePlayground
             return sequence.Where(predicate).Count();
         }
 
+        public static int Sum(this IEnumerable<int> sequence)
+        {
+            var sum = 0;
+            foreach (var item in sequence)
+                sum += item;
+            return sum;
+        }
+
     }
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(SequenceFromConsole().Count(s => s.Contains("hello")));
-            return;
-
-
-            var input = SequenceFromConsole().Select(s => int.Parse(s));
-            foreach (var item in input)
-                Console.WriteLine($"\t{item}");
+            var sum = SequenceFromConsole().Select(s => int.Parse(s)).Sum();
+            Console.WriteLine(sum);
 
             return;
             // Generate items using a factory:
