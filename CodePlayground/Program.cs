@@ -64,12 +64,19 @@ namespace CodePlayground
             return sum;
         }
 
+        public static int Sum(this IEnumerable<int> sequence, int seed)
+        {
+            var sum = seed;
+            foreach (var item in sequence)
+                sum += item;
+            return sum;
+        }
     }
     class Program
     {
         static void Main(string[] args)
         {
-            var sum = SequenceFromConsole().Select(s => int.Parse(s)).Sum();
+            var sum = SequenceFromConsole().Select(s => int.Parse(s)).Sum(10);
             Console.WriteLine(sum);
 
             return;
