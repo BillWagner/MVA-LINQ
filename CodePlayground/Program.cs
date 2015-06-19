@@ -38,12 +38,17 @@ namespace CodePlayground
         {
             return sequence.GetEnumerator().MoveNext();
         }
+
+        public static bool Any<T>(this IEnumerable<T> sequence, Func<T, bool> predicate)
+        {
+            return sequence.Where(predicate).GetEnumerator().MoveNext();
+        }
     }
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(SequenceFromConsole().Any());
+            Console.WriteLine(SequenceFromConsole().Any(s => s.Contains("hello")));
             return;
 
 
