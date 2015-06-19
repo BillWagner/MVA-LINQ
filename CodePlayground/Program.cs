@@ -17,6 +17,19 @@ namespace CodePlayground
         private Comparison<T> comparison;
         private IEnumerable<T> source;
 
+        public MyOrderedEnumerable(IOrderingImpl<T> source, Func<T, TKey> comparer)
+        {
+            this.source = source;
+            comparison = (a, b) =>
+            {
+                var originalComparison = source.CompareTo(a, b);
+                if (originalComparison != 0)
+                    return originalComparison;
+                else
+                    return comparer(a).CompareTo(comparer(b));
+            };
+        }
+
         public MyOrderedEnumerable(IEnumerable<T> source, Func<T, TKey> comparer)
         {
             this.source = source;
