@@ -88,15 +88,16 @@ namespace CodePlayground
             return sum;
         }
 
-        public static T Aggregate<T>(this IEnumerable<T> sequence, Func<T, T, T> func)
+        public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> sequence, Func<TAccumulate, TSource, TAccumulate> func)
         {
-            var sum = default(T);
+            var sum = default(TAccumulate);
             foreach (var item in sequence)
                 sum = func(sum, item);
             return sum;
         }
 
-        public static T Aggregate<T>(this IEnumerable<T> sequence, T seed, Func<T, T, T> func)
+        public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> sequence, 
+            TAccumulate seed, Func<TAccumulate, TSource, TAccumulate> func)
         {
             var sum = seed;
             foreach (var item in sequence)
@@ -108,7 +109,7 @@ namespace CodePlayground
     {
         static void Main(string[] args)
         {
-            var sum = SequenceFromConsole()
+            var sum = SequenceFromConsole().Select(s => int.Parse(s))
                 .Aggregate("Comma Separated", (existingString, item) => existingString + ", " + item);
             Console.WriteLine(sum);
 
