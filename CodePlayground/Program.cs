@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,29 @@ using System.Threading.Tasks;
 
 namespace CodePlayground
 {
+    public class MyOrderedEnumerable<T, TKey> : IEnumerable<T> where TKey : IComparable<TKey>
+    {
+        private Comparison<T> comparison;
+        private IEnumerable<T> source;
+
+        public MyOrderedEnumerable(IEnumerable<T> source, Func<T, TKey> comparer)
+        {
+            this.source = source;
+            comparison = (a, b) => comparer(a).CompareTo(comparer(b));
+        }
+        public IEnumerator<T> GetEnumerator()
+        {
+            // very poor implementation, but works:
+            var sorted = source.ToList();
+            sorted.Sort(comparison);
+            return sorted.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
     public static class MyLinqMethods
     {
         public static IEnumerable<T> Where<T>(
@@ -104,14 +128,20 @@ namespace CodePlayground
                 sum = func(sum, item);
             return sum;
         }
+
+        public static MyOrderedEnumerable<T, TKey> MyOrderBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> comparer)
+            where TKey: IComparable<TKey>
+        {
+            return new MyOrderedEnumerable<T, TKey>(source, comparer);
+        }
     }
     class Program
     {
         static void Main(string[] args)
         {
             var sequence = SequenceFromConsole()
-                .OrderBy(s => s.Length)
-                .ThenBy(s => s);
+                .MyOrderBy(s => s.Length);
+                // .ThenBy(s => s);
             foreach (var item in sequence)
                 Console.WriteLine($"\t{item}");
             return;
