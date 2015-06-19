@@ -50,12 +50,18 @@ namespace CodePlayground
         {
             return sequence.Where(predicate).GetEnumerator().MoveNext();
         }
+
+        public static int Count<T>(this IEnumerable<T> sequence, Func<T, bool> predicate)
+        {
+            return sequence.Where(predicate).Count();
+        }
+
     }
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(SequenceFromConsole().Count());
+            Console.WriteLine(SequenceFromConsole().Count(s => s.Contains("hello")));
             return;
 
 
