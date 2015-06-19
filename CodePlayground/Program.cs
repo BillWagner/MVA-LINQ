@@ -87,12 +87,29 @@ namespace CodePlayground
                 sum = func(sum, item);
             return sum;
         }
+
+        public static T Aggregate<T>(this IEnumerable<T> sequence, Func<T, T, T> func)
+        {
+            var sum = default(T);
+            foreach (var item in sequence)
+                sum = func(sum, item);
+            return sum;
+        }
+
+        public static T Aggregate<T>(this IEnumerable<T> sequence, T seed, Func<T, T, T> func)
+        {
+            var sum = seed;
+            foreach (var item in sequence)
+                sum = func(sum, item);
+            return sum;
+        }
     }
     class Program
     {
         static void Main(string[] args)
         {
-            var sum = SequenceFromConsole().Select(s => int.Parse(s)).Aggregate(10, (partialSum, item) => partialSum + item);
+            var sum = SequenceFromConsole()
+                .Aggregate("Comma Separated", (existingString, item) => existingString + ", " + item);
             Console.WriteLine(sum);
 
             return;
