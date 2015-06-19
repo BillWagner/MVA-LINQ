@@ -38,6 +38,11 @@ namespace CodePlayground
     {
         static void Main(string[] args)
         {
+            var input = SequenceFromConsole();
+            foreach (var item in input)
+                Console.WriteLine($"\t{item}");
+
+            return;
             // Generate items using a factory:
             var items = GenerateSequence(i => i.ToString());    
             foreach (var item in items.Where(item => item.Length < 2))
@@ -60,7 +65,15 @@ namespace CodePlayground
             while (i++ < 100)
                 yield return factory(i);
         }
+
+        private static IEnumerable<string> SequenceFromConsole()
+        {
+            string text = default(string);
+            while (text != "done")
+            {
+                yield return text;
+                text = Console.ReadLine();
+            }
+        }
     }
-
-
 }
