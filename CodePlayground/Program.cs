@@ -33,11 +33,20 @@ namespace CodePlayground
             foreach (TSource item in inputSequence)
                 yield return transform(item, index++);
         }
+
+        public static bool Any<T>(this IEnumerable<T> sequence)
+        {
+            return sequence.GetEnumerator().MoveNext();
+        }
     }
     class Program
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(SequenceFromConsole().Any());
+            return;
+
+
             var input = SequenceFromConsole().Select(s => int.Parse(s));
             foreach (var item in input)
                 Console.WriteLine($"\t{item}");
