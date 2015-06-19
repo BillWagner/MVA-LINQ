@@ -38,7 +38,7 @@ namespace CodePlayground
     {
         static void Main(string[] args)
         {
-            var input = SequenceFromConsole();
+            var input = SequenceFromConsole().Select(s => int.Parse(s));
             foreach (var item in input)
                 Console.WriteLine($"\t{item}");
 
@@ -68,7 +68,7 @@ namespace CodePlayground
 
         private static IEnumerable<string> SequenceFromConsole()
         {
-            string text = default(string);
+            string text = Console.ReadLine();
             while (text != "done")
             {
                 yield return text;
