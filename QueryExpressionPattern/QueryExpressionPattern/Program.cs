@@ -6,6 +6,30 @@ using System.Threading.Tasks;
 
 namespace QueryExpressionPattern
 {
+    public class Employee
+    {
+        public int Age
+        {
+            get;
+            set;
+        }
+        public string LastName
+        {
+            get;
+            set;
+        }
+        public string FirstName
+        {
+            get;
+            set;
+        }
+        public string Department
+        {
+            get;
+            set;
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
@@ -16,5 +40,18 @@ namespace QueryExpressionPattern
             var squares2 = numbers.Select(n => new { Number = n, Square = n * n });
 
         }
+
+        private static void WhereAndSelect(IEnumerable<Employee> employees)
+        {
+            var people = from e in employees
+                         where e.Age > 30
+                         orderby e.LastName, e.FirstName, e.Age
+                         select e;
+            var people2 = employees.Where(e => e.Age > 30).
+                OrderBy(e => e.LastName).
+                ThenBy(e => e.FirstName).
+                ThenBy(e => e.Age);
+        }
+
     }
 }
