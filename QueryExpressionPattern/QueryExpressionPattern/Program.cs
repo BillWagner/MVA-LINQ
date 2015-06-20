@@ -53,5 +53,16 @@ namespace QueryExpressionPattern
                 ThenBy(e => e.Age);
         }
 
+        private static void OrderByV2(IEnumerable<Employee> employees)
+        {
+            var people = from e in employees
+                         where e.Age > 30
+                         orderby e.LastName
+                         orderby e.FirstName
+                         orderby e.Age
+                         select e;
+        }
+
+
     }
 }
