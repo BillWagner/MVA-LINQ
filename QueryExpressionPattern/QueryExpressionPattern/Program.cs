@@ -63,6 +63,17 @@ namespace QueryExpressionPattern
                          select e;
         }
 
+        private static void OrderByV3(IEnumerable<Employee> employees)
+        {
+            var people = from e in employees
+                         where e.Age > 30
+                         orderby e.LastName descending
+                         orderby e.FirstName
+                         orderby e.Age
+                         select e;
+        }
+
+
 
     }
 }
