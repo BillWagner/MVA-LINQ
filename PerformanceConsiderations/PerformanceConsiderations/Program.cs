@@ -12,7 +12,9 @@ namespace PerformanceConsiderations
         {
             var sequence = Enumerable.Range(0, 100);
 
-            bool exists = sequence.Count() != 0;
+            bool exists = sequence.Count() > 10;
+
+            Console.WriteLine(exists);
         }
     }
 }
