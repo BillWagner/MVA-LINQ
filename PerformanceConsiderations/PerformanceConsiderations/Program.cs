@@ -10,9 +10,9 @@ namespace PerformanceConsiderations
     {
         static void Main(string[] args)
         {
-            var sequence = Enumerable.Range(0, 100);
+            var sequence = Enumerable.Range(0, 10);
 
-            bool exists = sequence.Count() > 10;
+            bool exists = sequence.Skip(9).Any();
 
             Console.WriteLine(exists);
         }
