@@ -75,9 +75,8 @@ namespace QueryExpressionPattern
 
         private static void GroupJoinV1(IEnumerable<Employee> employees)
         {
-            var results = from d in
-                               from e in employees group e by e.Department
-                           select new { Department = d.Key, Size = d.Count() };
+            var results = employees.GroupBy(e => e.Department).
+                Select(d => new { Department = d.Key, Size = d.Count() });
         }
 
 
