@@ -87,6 +87,14 @@ namespace QueryExpressionPattern
                 Select(d => new { Department = d.Key, Size = d.Count() });
         }
 
+        private static void GroupByWithCollection(IEnumerable<Employee> employees)
+        {
+            var results = from e in employees
+                          group e by e.Department into d
+                          select new { Department = d.Key, Employees = d.AsEnumerable() };
+            var results2 = employees.GroupBy(e => e.Department).
+                Select(d => new { Department = d.Key, Employees = d.AsEnumerable() });
+        }
 
 
 
