@@ -10,6 +10,9 @@ namespace PerformanceConsiderations
     {
         static void Main(string[] args)
         {
+            var sequence = Enumerable.Range(0, 100);
+
+            bool exists = sequence.Count() != 0;
         }
     }
 }
