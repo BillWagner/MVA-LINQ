@@ -116,6 +116,15 @@ namespace QueryExpressionPattern
                 new { oddNumber, evenNumber, Sum = oddNumber + evenNumber });
         }
 
+        private static void SelectManyExample3()
+        {
+            int[] odds = { 1, 3, 5, 7 };
+            int[] evens = { 2, 4, 6, 8 };
+            var values = from oddNumber in odds
+                        from evenNumber in evens
+                        where oddNumber > evenNumber
+                        select new { oddNumber, evenNumber, Sum = oddNumber + evenNumber };
+        }
 
     }
 }
