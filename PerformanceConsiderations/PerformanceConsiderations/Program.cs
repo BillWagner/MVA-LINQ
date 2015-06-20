@@ -13,7 +13,7 @@ namespace PerformanceConsiderations
             var sequence = Enumerable.Range(0, int.MaxValue);
 
             Console.WriteLine("Starting");
-            int singleItem = sequence.First(item => item == 13);
+            int singleItem = sequence.Last(item => item == 13);
             Console.WriteLine(singleItem);
         }
     }
