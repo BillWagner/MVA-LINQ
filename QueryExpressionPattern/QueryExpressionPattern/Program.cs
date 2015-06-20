@@ -34,7 +34,7 @@ namespace QueryExpressionPattern
     {
         static void Main(string[] args)
         {
-            SelectManyExample2();
+            SelectManyExample4();
             return;
             int[] numbers = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             var squares = from n in numbers
@@ -124,6 +124,24 @@ namespace QueryExpressionPattern
                         from evenNumber in evens
                         where oddNumber > evenNumber
                         select new { oddNumber, evenNumber, Sum = oddNumber + evenNumber };
+        }
+
+        private static void SelectManyExample4()
+        {
+
+            int[] odds = { 1, 3, 5, 7 };
+            int[] evens = { 2, 4, 6, 8 };
+            var values = odds.SelectMany(oddNumber => evens,
+                (oddNumber, evenNumber) =>
+                new { oddNumber, evenNumber })
+                .Where(pair => pair.oddNumber > pair.evenNumber).
+                Select(pair => new {
+                    pair.oddNumber,
+                    pair.evenNumber,
+                    Sum = pair.oddNumber + pair.evenNumber
+                });
+
+
         }
 
     }
