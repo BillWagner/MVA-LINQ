@@ -39,7 +39,23 @@ namespace QueryExpressionPattern
                           select new { Number = n, Square = n * n };
             var squares2 = numbers.Select(n => new { Number = n, Square = n * n });
 
+            ListingJoin();
         }
+
+        static void ListingJoin()
+        {
+            var numbers = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var labels = new string[] { "0", "1", "2", "3", "4", "5" };
+            var query = from num in numbers
+                        join label in labels on num.ToString() equals label
+                        select new { num, label };
+
+            var query2 = numbers.Join(labels, num => num.ToString(), label => label,
+                (num, label) => new { num, label });
+
+        }
+
+
 
         private static void WhereAndSelect(IEnumerable<Employee> employees)
         {
