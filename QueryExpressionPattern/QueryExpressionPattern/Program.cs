@@ -54,6 +54,18 @@ namespace QueryExpressionPattern
                 (num, label) => new { num, label });
 
         }
+        static void listingGroupJoin(IEnumerable<Task> tasks,
+            IEnumerable<Project> projects)
+        {
+            var groups = from p in projects
+                         join t in tasks on p equals t.Parent into projTasks
+                         select new { Project = p, projTasks };
+
+            var groups = projects.GroupJoin(tasks,
+                p => p, t => t.Parent, (p, projTasks) =>
+                    new { Project = p, TaskList = projTasks });
+
+        }
 
 
 
