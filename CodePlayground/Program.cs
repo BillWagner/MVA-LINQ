@@ -106,10 +106,19 @@ namespace CodePlayground
     }
     class Program
     {
+        public static string delim = string.Empty;
+
         static void Main(string[] args)
         {
             var sum = SequenceFromConsole()
-                .Aggregate("Comma Separated", (existingString, item) => existingString + ", " + item);
+                .Aggregate("Comma Separated: [", (existingString, item) => {
+                    var s = existingString + delim + item;
+                    delim = ", ";
+                    return s;
+                });
+
+            sum = string.Concat(sum, "]");
+
             Console.WriteLine(sum);
 
             return;
